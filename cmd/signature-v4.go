@@ -192,7 +192,7 @@ func doesPolicySignatureV4Match(formValues http.Header) APIErrorCode {
 
 	// Verify signature.
 	if !compareSignatureV4(newSignature, formValues.Get(xhttp.AmzSignature)) {
-		fmt.Printf("String to sign: %v - Signing key: %v - New signature: %v - Check signature: %v policy", formValues.Get("Policy"), signingKey, newSignature, formValues.Get(xhttp.AmzSignature))
+		fmt.Printf("String to sign: %v - Signing key: %v - New signature: %v - Check signature: %v policy\n", formValues.Get("Policy"), signingKey, newSignature, formValues.Get(xhttp.AmzSignature))
 		return ErrSignatureDoesNotMatch
 	}
 
@@ -388,7 +388,13 @@ func doesSignatureMatch(hashedPayload string, r *http.Request, region string, st
 
 	// Verify if signature match.
 	if !compareSignatureV4(newSignature, signV4Values.Signature) {
-		fmt.Printf("String to sign: %v - Signing key: %v - New signature: %v - Check signature: %v", stringToSign, signingKey, newSignature, signV4Values.Signature)
+		for name, values := range req.Header {
+			// Loop over all values for the name.
+			for _, value := range values {
+				fmt.Println(name, value)
+			}
+		}
+		fmt.Printf("String to sign: %v - Signing key: %v - New signature: %v - Check signature: %v\n", stringToSign, signingKey, newSignature, signV4Values.Signature)
 		return ErrSignatureDoesNotMatch
 	}
 
