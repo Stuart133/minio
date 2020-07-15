@@ -190,7 +190,7 @@ func doesPolicySignatureV4Match(formValues http.Header) APIErrorCode {
 	// Get signature.
 	newSignature := getSignature(signingKey, formValues.Get("Policy"))
 
-	fmt.Printf("String to sign: %v - Signing key: %v - New signature: %v - Check signature: %v", stringToSign, signingKey, newSignature, formValues.Get(xhttp.AmzSignature))
+	fmt.Printf("String to sign: %v - Signing key: %v - New signature: %v - Check signature: %v", formValues.Get("Policy"), signingKey, newSignature, formValues.Get(xhttp.AmzSignature))
 
 	// Verify signature.
 	if !compareSignatureV4(newSignature, formValues.Get(xhttp.AmzSignature)) {
